@@ -1,39 +1,28 @@
-import 'package:crudapp/screens/newpost_screen.dart';
-import 'package:crudapp/widgets/home_body.dart';
-
 import 'package:flutter/material.dart';
 
-import '../services/networking.dart';
+import 'package:crudapp/providers/jasonlistprovider.dart';
+import 'package:crudapp/widgets/home_body.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final listOfUnrealData = ref.watch(listOfUnrealDataProvider);
 
-class _HomeScreenState extends State<HomeScreen> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('CRUD APP'),
       ),
-      body: FutureBuilder(
-        future: networking.getAllData(),
-        builder: (_, snapshot) {
-          if (snapshot.hasData) {
-            final listOfUnrealData = snapshot.data!.reversed.toList();
-            return HomeBody(listOfUnrealData: listOfUnrealData);
-          }
-          if (snapshot.hasError) {
-            return const Center(
-              child: Text('There was an error loading Top Headlines'),
-            );
-          }
-          return const Center(
-            child: Text('Loading...'),
-          );
+      body: listOfUnrealData.when(
+        data: (listOfUnrealData) {
+          return HomeBody(listOfUnrealData: listOfUnrealData.reversed.toList());
         },
+        error: (e, s) {
+          return const Center(
+              child: Text('Oops, something unexpected happened'));
+        },
+        loading: () => const Center(child: Text('loading...')),
       ),
     );
   }

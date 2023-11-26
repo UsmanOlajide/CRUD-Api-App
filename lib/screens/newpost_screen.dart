@@ -1,18 +1,19 @@
+import 'package:crudapp/providers/jasonlistprovider.dart';
 import 'package:crudapp/services/networking.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NewPostScreen extends StatefulWidget {
+class NewPostScreen extends ConsumerStatefulWidget {
   const NewPostScreen({super.key});
 
   @override
-  State<NewPostScreen> createState() => _NewPostScreenState();
+  ConsumerState<NewPostScreen> createState() => _NewPostScreenState();
 }
 
-class _NewPostScreenState extends State<NewPostScreen> {
+class _NewPostScreenState extends ConsumerState<NewPostScreen> {
   final titleController = TextEditingController();
   final bodyController = TextEditingController();
   final userIdController = TextEditingController();
-  final baseUrl = 'https://jsonplaceholder.typicode.com/posts';
 
   Widget fieldBuilder(String title, Widget content) {
     return Row(
@@ -118,12 +119,12 @@ class _NewPostScreenState extends State<NewPostScreen> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black54,
                       foregroundColor: Colors.white),
-                  onPressed: () async {
-                    await networking.postSomething(
-                      titleController.text,
-                      bodyController.text,
-                      int.tryParse(userIdController.text) ?? 0,
-                    );
+                  onPressed: () {
+                    ref.read(listOfUnrealDataProvider.notifier).postData(
+                          titleController.text,
+                          bodyController.text,
+                          int.tryParse(userIdController.text) ?? 0,
+                        );
                     if (context.mounted) {
                       Navigator.of(context).pop();
                     }
