@@ -6,7 +6,7 @@ part of 'jasonlistprovider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$listOfUnrealDataHash() => r'20a8142c6394b259f5bf856a9262c3a1702bc09b';
+String _$listOfUnrealDataHash() => r'3927cddd02bc90f11b4597cdb7e3b5d3eed9e3ce';
 
 /// See also [ListOfUnrealData].
 @ProviderFor(ListOfUnrealData)

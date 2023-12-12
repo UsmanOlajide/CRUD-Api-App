@@ -1,4 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 class UnrealData {
   UnrealData({
     required this.title,
@@ -20,4 +21,21 @@ class UnrealData {
       userId: json['userId'] ?? '',
     );
   }
+
+
+  @override
+  String toString() =>
+      'UnrealData(title: $title, body: $body, userId: $userId)';
 }
+  // Map<String, dynamic> toMap() {
+  //   return {
+  //     'title': title,
+  //     'body': body,
+  //     'id': id,
+  //     'userId': userId,
+  //   };
+  // }
+
+  // String toJson() {
+  //   return jsonEncode(toMap());
+  // }
