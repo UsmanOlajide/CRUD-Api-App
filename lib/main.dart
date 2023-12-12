@@ -27,8 +27,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// * TESTING/ NEW UI
+// * TESTING/ NO RIVERPOD
 
-//* So far I changed the UI to show only one unrealData at a time but random every time the app is started or a GET request is made
-//* I added a POST feature which adds the user input to the list of all unrealData and after the request the user input is displayed
-//* Next up is the UPDATE feature, I think find & update by ID is good to use, but I'm still working on it ...
+//* I want to try and use the JSONPLACEHOLDER Api but this time without riverpod
