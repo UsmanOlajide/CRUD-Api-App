@@ -59,13 +59,13 @@ class ListOfUnrealData extends _$ListOfUnrealData {
   }
 
   // Future<void> updateData() async {
-  Future<void> updateData(int id, String title, String body, int userId) async {
+  Future<void> updateData( String title, String body, int userId) async {
     final url = Uri.parse(updateUrl);
     final response = await http.put(
       url,
       body: jsonEncode(
         {
-          'id': "101",
+          // 'id': id,
           'title': title,
           'body': body,
           'userId': userId,

@@ -9,13 +9,13 @@ class NewPostScreen extends StatelessWidget {
     required this.userIdController,
     required this.titleController,
     required this.bodyController,
-    required this.idController,
+    // required this.idController,
   });
 
   final TextEditingController userIdController;
   final TextEditingController titleController;
   final TextEditingController bodyController;
-  final TextEditingController idController;
+  // final TextEditingController idController;
 
   // final userIdController = TextEditingController();
   // final titleController = TextEditingController();
@@ -63,29 +63,29 @@ class NewPostScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          fieldBuilder(
-            'Id',
-            SizedBox(
-              height: 30,
-              child: TextField(
-                controller: idController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  // floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // fieldBuilder(
+          //   'Id',
+          //   SizedBox(
+          //     height: 30,
+          //     child: TextField(
+          //       controller: idController,
+          //       keyboardType: TextInputType.number,
+          //       decoration: const InputDecoration(
+          //         // floatingLabelBehavior: FloatingLabelBehavior.auto,
+          //         focusedBorder: OutlineInputBorder(
+          //           borderRadius: BorderRadius.all(
+          //             Radius.circular(10),
+          //           ),
+          //         ),
+          //         enabledBorder: OutlineInputBorder(
+          //           borderRadius: BorderRadius.all(
+          //             Radius.circular(10),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(height: 10),
           fieldBuilder(
             'Title',

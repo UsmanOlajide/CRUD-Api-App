@@ -25,7 +25,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   final userIdController = TextEditingController();
   final titleController = TextEditingController();
   final bodyController = TextEditingController();
-  final idController = TextEditingController();
+  // final idController = TextEditingController();
   var updated = true;
   // int i = 0;
 
@@ -74,7 +74,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       userIdController: userIdController,
                       titleController: titleController,
                       bodyController: bodyController,
-                      idController: idController,
+                      // idController: idController,
                       // selectedItemId: selectedItemId,v
                     ),
                     const SizedBox(height: 10),
@@ -105,7 +105,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       await ref
                           .read(listOfUnrealDataProvider.notifier)
                           .updateData(
-                              int.tryParse(idController.text) ?? 0,
+                              // int.tryParse(idController.text) ?? 0,
                               titleController.text,
                               bodyController.text,
                               int.tryParse(userIdController.text) ?? 0);
@@ -134,7 +134,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
 
 
-
+// I dont want to input the id manually, i just want to pass the id of the current post 
 
 
 
