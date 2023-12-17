@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class UnrealData {
@@ -10,7 +11,7 @@ class UnrealData {
 
   final String title;
   final String body;
-  int id;
+   int id;
   final int userId;
 
   factory UnrealData.fromJson(Map<String, dynamic> json) {
@@ -22,20 +23,27 @@ class UnrealData {
     );
   }
 
-
   @override
   String toString() =>
       'UnrealData(title: $title, body: $body, userId: $userId)';
 }
-  // Map<String, dynamic> toMap() {
-  //   return {
-  //     'title': title,
-  //     'body': body,
-  //     'id': id,
-  //     'userId': userId,
-  //   };
-  // }
 
-  // String toJson() {
-  //   return jsonEncode(toMap());
-  // }
+// class Post {
+//   Post({
+//     required this.userId,
+//     required this.title,
+//     required this.description,
+//   });
+
+//   final int userId;
+//   final String title;
+//   final String description;
+
+//   factory Post.fromJson(Map<String, dynamic> json) {
+//     return Post(
+//       userId: json['userId'],
+//       title: json['title'],
+//       description: json['description'],
+//     );
+//   }
+// }

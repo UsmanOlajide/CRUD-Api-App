@@ -1,11 +1,9 @@
-import 'dart:math';
+import 'package:crudapp/models/album.dart';
+
+import 'package:crudapp/services/networking.dart';
 import 'package:flutter/material.dart';
 
-import 'package:crudapp/widgets/newpost_screen.dart';
-import 'package:crudapp/providers/jasonlistprovider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-class HomeScreen extends ConsumerStatefulWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   Widget buildButton(void Function()? onPressed, String text) {
@@ -18,114 +16,169 @@ class HomeScreen extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-  final userIdController = TextEditingController();
-  final titleController = TextEditingController();
-  final bodyController = TextEditingController();
-  final idController = TextEditingController();
+class _HomeScreenState extends State<HomeScreen> {
   var updated = true;
-  // int i = 0;
+  // var fetchData = networking.getData();
+  late Future<Album> albumFuture;
 
   @override
-  void dispose() {
-    userIdController.dispose();
-    titleController.dispose();
-    bodyController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    albumFuture = networking.getData();
   }
 
   @override
   Widget build(BuildContext context) {
-    final listOfUnrealData = ref.watch(listOfUnrealDataProvider);
-
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('CRUD APP'),
-        ),
-        body: listOfUnrealData.when(
-          data: (listOfUnrealData) {
-            // if (updated == false) {
-            //   print(listOfUnrealData.last.id);
-            // }
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('CRUD APP'),
+          ),
+          body: Center(
+            child: FutureBuilder(
+              future: albumFuture,
+              // future: albumFuture ?? fetchData,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  print(snapshot.error);
+                }
+                if (snapshot.hasData) {
+                  // print(snapshot.data!.title);
+                  final oneData = snapshot.data;
+                  return Column(
+                    children: [
+                      const SizedBox(height: 80),
+                      const Text('TITLE'),
+                      Text(oneData?.title ?? 'DELETED'),
+                      const SizedBox(height: 30),
+                      widget.buildButton(() async {
+                        setState(() {
+                          albumFuture = networking.getData();
+                        });
+                      }, 'GET'),
+                      widget.buildButton(() async {
+                        setState(() {
+                          albumFuture = networking.postData('First Title');
+                        });
+                      }, 'POST'),
+                      widget.buildButton(() async {
+                        setState(() {
+                          albumFuture = networking.updateData('new title');
+                        });
+                      }, ' PUT / UPDATE'),
+                      widget.buildButton(() async {
+                        setState(() {
+                          albumFuture =
+                              networking.deleteAlbum(oneData!.id.toString());
+                        });
+                      }, 'DELETE')
+                    ],
+                  );
+                }
 
-            var randomNumber = Random().nextInt(listOfUnrealData.length) + 1;
-            var initialItem = listOfUnrealData[randomNumber];
-            var newItem = listOfUnrealData.last;
+                return const Center(
+                  child: Text('Loading...'),
+                );
+              },
+            ),
 
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(
-                    child: Column(
-                  children: [
-                    const SizedBox(height: 80),
-                    const Text('TITLE'),
-                    Text(updated ? initialItem.title : newItem.title),
-                    const SizedBox(height: 30),
-                    const Text('BODY'),
-                    Text(updated ? initialItem.body : newItem.body),
-                    const SizedBox(height: 60),
-                    NewPostScreen(
-                      userIdController: userIdController,
-                      titleController: titleController,
-                      bodyController: bodyController,
-                      idController: idController,
-                      // selectedItemId: selectedItemId,v
-                    ),
-                    const SizedBox(height: 10),
-                    widget.buildButton(() async {
-                      await ref
-                          .read(listOfUnrealDataProvider.notifier)
-                          .getData();
-                      setState(() {});
-                    }, 'GET'),
-                    widget.buildButton(() async {
-                      await ref
-                          .read(listOfUnrealDataProvider.notifier)
-                          .postData(
-                            titleController.text,
-                            bodyController.text,
-                            int.tryParse(userIdController.text) ?? 0,
-                          );
+            //  Column(
+            //   children: [
+            //     const SizedBox(height: 80),
+            //     const Text('TITLE'),
+            //     const Text('updated'),
+            //     const SizedBox(height: 30),
+            //     const Text('BODY'),
+            //     const Text('updated'),
+            //     const SizedBox(height: 60),
+            //     widget.buildButton(() async {}, 'GET'),
+            //     widget.buildButton(() async {}, 'POST'),
+            //     widget.buildButton(() async {}, 'UPDATE / PUT')
+            //   ],
+            // ),
+            // listOfUnrealData.when(
+            //   data: (listOfUnrealData) {
+            //     // if (updated == false) {
+            //     //   print(listOfUnrealData.last.id);
+            //     // }
 
-                      setState(() {
-                        updated = false;
-                      });
-                      userIdController.clear();
-                      titleController.clear();
-                      bodyController.clear();
-                    }, 'POST'),
-                    
-                    widget.buildButton(() async {
-                      await ref
-                          .read(listOfUnrealDataProvider.notifier)
-                          .updateData(
-                              int.tryParse(idController.text) ?? 0,
-                              titleController.text,
-                              bodyController.text,
-                              int.tryParse(userIdController.text) ?? 0);
-                              
-                      setState(() {});
-                      print(updated);
-                    }, 'UPDATE / PUT')
-                  ],
-                )),
-              ),
-            );
-          },
-          error: (e, s) {
-            return const Center(
-                child: Text('Oops, something unexpected happened'));
-          },
-          loading: () => const Center(child: Text('loading')),
-        ),
-      ),
-    );
+            //     var randomNumber = Random().nextInt(listOfUnrealData.length) + 1;
+            //     var initialItem = listOfUnrealData[randomNumber];
+            //     var newItem = listOfUnrealData.last;
+
+            //     return SingleChildScrollView(
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(10),
+            //         child: Center(
+            //             child: Column(
+            //           children: [
+            //             const SizedBox(height: 80),
+            //             const Text('TITLE'),
+            //             Text(updated ? initialItem.title : newItem.title),
+            //             const SizedBox(height: 30),
+            //             const Text('BODY'),
+            //             Text(updated ? initialItem.body : newItem.body),
+            //             const SizedBox(height: 60),
+            //             NewPostScreen(
+            //               userIdController: userIdController,
+            //               titleController: titleController,
+            //               bodyController: bodyController,
+            //               idController: idController,
+            //               // selectedItemId: selectedItemId,v
+            //             ),
+            //             const SizedBox(height: 10),
+            // widget.buildButton(() async {
+            //   await ref
+            //       .read(listOfUnrealDataProvider.notifier)
+            //       .getData();
+            //   setState(() {});
+            // }, 'GET'),
+            // widget.buildButton(() async {
+            //   await ref
+            //       .read(listOfUnrealDataProvider.notifier)
+            //       .postData(
+            //         titleController.text,
+            //         bodyController.text,
+            //         int.tryParse(userIdController.text) ?? 0,
+            //       );
+
+            //   setState(() {
+            //     updated = false;
+            //   });
+            //   userIdController.clear();
+            //   titleController.clear();
+            //   bodyController.clear();
+            // }, 'POST'),
+
+            // widget.buildButton(() async {
+            //   await ref
+            //       .read(listOfUnrealDataProvider.notifier)
+            //       .updateData(
+            //           int.tryParse(idController.text) ?? 0,
+            //           titleController.text,
+            //           bodyController.text,
+            //           int.tryParse(userIdController.text) ?? 0);
+
+            //   setState(() {});
+            //   print(updated);
+            // }, 'UPDATE / PUT')
+            //           ],
+            //         )),
+            //       ),
+            //     );
+            //   },
+            //   error: (e, s) {
+            //     return const Center(
+            //         child: Text('Oops, something unexpected happened'));
+            //   },
+            //   loading: () => const Center(child: Text('loading')),
+            // ),
+          ),
+        ));
   }
 }
 
@@ -165,3 +218,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 //I'm just trying to spread a little sweetness in the world, and it seems to be working on you. 
 //That's a win in my book.I guess a sweet mouth has its perks! 😄 
 //Well, you know, a sweet mouth is just the beginning Haha, guilty as charged
+
+
+// state not updating
