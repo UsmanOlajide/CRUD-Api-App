@@ -40,7 +40,7 @@ class Networking {
       final albumList =
           decodedData.map((album) => Album.fromJson(album)).toList();
       var randomNumber = Random().nextInt(albumList.length) + 0;
-      final album = albumList[1];
+      final album = albumList[randomNumber];
       // print('id:${album.id}');
       // print('userId:${album.userId}');
       return album;
