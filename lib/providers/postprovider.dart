@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 part 'postprovider.g.dart';
 
-const getUrl = 'https://jsonplaceholder.typicode.com/posts';
+// const getUrl = 'https://jsonplaceholder.typicode.com/posts';
 const postUrl = 'https://jsonplaceholder.typicode.com/posts';
 // late int lastItem;
 // final lastItemString = lastItem.toString();
@@ -16,39 +16,35 @@ final updateUrl = 'https://jsonplaceholder.typicode.com/posts/1';
 @riverpod
 class PostData extends _$PostData {
   @override
-  Future<Post> build() async {
+  Future<List<Post>> build() async {
     return fetchData();
   }
 
-  Future<Post> fetchData() async {
-    final url = Uri.parse(getUrl);
+  Future<List<Post>> fetchData() async {
+    final url = Uri.parse('https://jsonplaceholder.typicode.com/posts');
     final response = await http.get(url);
     print(response.statusCode);
 
-    final data = response.body;
-    final List<dynamic> decodedData = jsonDecode(data);
-    final listOfPost = decodedData.map((e) => Post.fromJson(e)).toList();
-    var randomNumber = Random().nextInt(decodedData.length) + 0;
-    final post = listOfPost[randomNumber];
-    print(post.title);
-    return post;
+    final List<dynamic> decodedData = jsonDecode(response.body);
+    final listOfPost = decodedData.map((post) => Post.fromJson(post)).toList();
+    return listOfPost;
   }
 
-  Future<void> postData(String title, String body, int userId) async {
-    final url = Uri.parse(postUrl);
-    final response = await http.post(
-      url,
-      headers: {'content-type': 'application/json'},
-      body: jsonEncode(
-        {
-          'title': title,
-          'body': body,
-          'userId': userId,
-        },
-      ),
-    );
-  }
-}
+//   Future<void> postData(String title, String body, int userId) async {
+//     final url = Uri.parse(postUrl);
+//     final response = await http.post(
+//       url,
+//       headers: {'content-type': 'application/json'},
+//       body: jsonEncode(
+//         {
+//           'title': title,
+//           'body': body,
+//           'userId': userId,
+//         },
+//       ),
+//     );
+//   }
+// }
 
 //     final data = response.body;
 
@@ -132,3 +128,4 @@ class PostData extends _$PostData {
 //     state = AsyncData([...previousState, Post]);
 //   }
 // }
+}

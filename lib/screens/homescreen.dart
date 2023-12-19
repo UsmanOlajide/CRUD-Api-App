@@ -41,7 +41,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final postData = ref.watch(postDataProvider);
+    var postData = ref.watch(postDataProvider); // this ensures the fetchData executes once and just once that's why I can't execute it again even with setState and so a list is the best approach then accessing the posts inside it randomly
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -50,13 +50,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           title: const Text('CRUD APP'),
         ),
         body: postData.when(
-          data: (post) {
-              print(post.title);
-            // if (updated == false) {
-            //   print(post.title);
-            // }
-            // var randomNumber = Random().nextInt(post.length) + 0;
-            // final post = post[randomNumber];
+          data: (postList) {
+            var randomNumber = Random().nextInt(postList.length) + 0;
+            final post = postList[randomNumber];
 
             return SingleChildScrollView(
               child: Padding(
@@ -83,8 +79,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     const SizedBox(height: 10),
                     widget.buildButton(() async {
                       await ref.read(postDataProvider.notifier).fetchData();
-                      setState(() {});
-                      // updated = false;
+                      setState(() {
+                        // updated = false;
+                      });
+                      // post = newFetch;
                     }, 'GET'),
                     // widget.buildButton(() async {
                     //   await ref
