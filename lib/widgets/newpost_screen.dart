@@ -1,7 +1,7 @@
-import 'package:crudapp/providers/jasonlistprovider.dart';
-import 'package:crudapp/services/networking.dart';
+
+
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 class NewPostScreen extends StatelessWidget {
   const NewPostScreen({

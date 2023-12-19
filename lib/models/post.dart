@@ -1,7 +1,5 @@
-import 'dart:convert';
-
-class UnrealData {
-  UnrealData({
+class Post {
+  Post({
     required this.title,
     required this.body,
     required this.id,
@@ -13,8 +11,8 @@ class UnrealData {
   int id;
   final int userId;
 
-  factory UnrealData.fromJson(Map<String, dynamic> json) {
-    return UnrealData(
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
       title: json['title'] ?? '',
       body: json['body'] ?? '',
       id: json['id'] ?? 0,
@@ -25,7 +23,7 @@ class UnrealData {
 
   @override
   String toString() =>
-      'UnrealData(title: $title, body: $body, userId: $userId)';
+      'Post(title: $title, body: $body, userId: $userId)';
 }
   // Map<String, dynamic> toMap() {
   //   return {

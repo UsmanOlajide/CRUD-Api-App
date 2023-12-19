@@ -1,8 +1,10 @@
 import 'dart:math';
+
+import 'package:crudapp/providers/postprovider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:crudapp/widgets/newpost_screen.dart';
-import 'package:crudapp/providers/jasonlistprovider.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -39,7 +41,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final listOfUnrealData = ref.watch(listOfUnrealDataProvider);
+    final postDataList = ref.watch(postDataProvider);
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -47,15 +49,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         appBar: AppBar(
           title: const Text('CRUD APP'),
         ),
-        body: listOfUnrealData.when(
-          data: (listOfUnrealData) {
+        body: postDataList.when(
+          data: (postList) {
             // if (updated == false) {
-            //   print(listOfUnrealData.last.id);
+            //   print(post.title);
             // }
-
-            var randomNumber = Random().nextInt(listOfUnrealData.length) + 1;
-            var initialItem = listOfUnrealData[randomNumber];
-            var newItem = listOfUnrealData.last;
+            var randomNumber = Random().nextInt(postList.length) + 0;
+            final post = postList[randomNumber];
 
             return SingleChildScrollView(
               child: Padding(
@@ -65,10 +65,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     const SizedBox(height: 80),
                     const Text('TITLE'),
-                    Text(updated ? initialItem.title : newItem.title),
+                    Text(post.title),
+                    // Text(updated ? initialItem.title : newItem.title),
                     const SizedBox(height: 30),
                     const Text('BODY'),
-                    Text(updated ? initialItem.body : newItem.body),
+                    Text(post.body),
+                    // Text(updated ? initialItem.body : newItem.body),
                     const SizedBox(height: 60),
                     NewPostScreen(
                       userIdController: userIdController,
@@ -79,40 +81,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     const SizedBox(height: 10),
                     widget.buildButton(() async {
-                      await ref
-                          .read(listOfUnrealDataProvider.notifier)
-                          .getData();
+                      await ref.read(postDataProvider.notifier).fetchData();
                       setState(() {});
+                      // updated = false;
                     }, 'GET'),
-                    widget.buildButton(() async {
-                      await ref
-                          .read(listOfUnrealDataProvider.notifier)
-                          .postData(
-                            titleController.text,
-                            bodyController.text,
-                            int.tryParse(userIdController.text) ?? 0,
-                          );
+                    // widget.buildButton(() async {
+                    //   await ref
+                    //       .read(listOfUnrealDataProvider.notifier)
+                    //       .postDataList(
+                    //         titleController.text,
+                    //         bodyController.text,
+                    //         int.tryParse(userIdController.text) ?? 0,
+                    //       );
 
-                      setState(() {
-                        updated = false;
-                      });
-                      userIdController.clear();
-                      titleController.clear();
-                      bodyController.clear();
-                    }, 'POST'),
-                    
-                    widget.buildButton(() async {
-                      await ref
-                          .read(listOfUnrealDataProvider.notifier)
-                          .updateData(
-                              // int.tryParse(idController.text) ?? 0,
-                              titleController.text,
-                              bodyController.text,
-                              int.tryParse(userIdController.text) ?? 0);
-                              
-                      setState(() {});
-                      print(updated);
-                    }, 'UPDATE / PUT')
+                    //   setState(() {
+                    //     updated = false;
+                    //   });
+                    //   userIdController.clear();
+                    //   titleController.clear();
+                    //   bodyController.clear();
+                    // }, 'POST'),
+
+                    // widget.buildButton(() async {
+                    //   await ref
+                    //       .read(listOfUnrealDataProvider.notifier)
+                    //       .updateData(
+                    //           // int.tryParse(idController.text) ?? 0,
+                    //           titleController.text,
+                    //           bodyController.text,
+                    //           int.tryParse(userIdController.text) ?? 0);
+
+                    //   setState(() {});
+                    //   print(updated);
+                    // }, 'UPDATE / PUT')
                   ],
                 )),
               ),

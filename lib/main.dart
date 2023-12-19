@@ -27,8 +27,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// * TESTING/ NEW UI
+// * TESTING/ NEW UI REFACTOR
 
-//* So far I changed the UI to show only one unrealData at a time but random every time the app is started or a GET request is made
-//* I added a POST feature which adds the user input to the list of all unrealData and after the request the user input is displayed
-//* Next up is the UPDATE feature, I think find & update by ID is good to use, but I'm still working on it ...
+//* I want to make getRequest return 1 object instead of a list ....
+//* I want to do a bunch of refactoring too
