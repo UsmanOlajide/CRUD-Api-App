@@ -16,22 +16,22 @@ final updateUrl = 'https://jsonplaceholder.typicode.com/posts/1';
 @riverpod
 class PostData extends _$PostData {
   @override
-  Future<List<Post>> build() async {
+  Future<Post> build() async {
     return fetchData();
   }
 
-  Future<List<Post>> fetchData() async {
+  Future<Post> fetchData() async {
     final url = Uri.parse(getUrl);
     final response = await http.get(url);
     print(response.statusCode);
 
     final data = response.body;
     final List<dynamic> decodedData = jsonDecode(data);
-    // var randomNumber = Random().nextInt(decodedData.length) + 0;
     final listOfPost = decodedData.map((e) => Post.fromJson(e)).toList();
-    // final post = listOfPost[randomNumber];
-    // print(post.title);
-    return listOfPost;
+    var randomNumber = Random().nextInt(decodedData.length) + 0;
+    final post = listOfPost[randomNumber];
+    print(post.title);
+    return post;
   }
 
   Future<void> postData(String title, String body, int userId) async {

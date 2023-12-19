@@ -41,7 +41,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final postDataList = ref.watch(postDataProvider);
+    final postData = ref.watch(postDataProvider);
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -49,13 +49,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         appBar: AppBar(
           title: const Text('CRUD APP'),
         ),
-        body: postDataList.when(
-          data: (postList) {
+        body: postData.when(
+          data: (post) {
+              print(post.title);
             // if (updated == false) {
             //   print(post.title);
             // }
-            var randomNumber = Random().nextInt(postList.length) + 0;
-            final post = postList[randomNumber];
+            // var randomNumber = Random().nextInt(post.length) + 0;
+            // final post = post[randomNumber];
 
             return SingleChildScrollView(
               child: Padding(
@@ -88,7 +89,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // widget.buildButton(() async {
                     //   await ref
                     //       .read(listOfUnrealDataProvider.notifier)
-                    //       .postDataList(
+                    //       .post(
                     //         titleController.text,
                     //         bodyController.text,
                     //         int.tryParse(userIdController.text) ?? 0,
