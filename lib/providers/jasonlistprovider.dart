@@ -58,8 +58,7 @@ class ListOfUnrealData extends _$ListOfUnrealData {
     state = AsyncData([...previousState, unrealData]);
   }
 
-  // Future<void> updateData() async {
-  Future<void> updateData( String title, String body, int userId) async {
+  Future<void> updateData(String title, String body, int userId) async {
     final url = Uri.parse(updateUrl);
     final response = await http.put(
       url,
@@ -78,15 +77,25 @@ class ListOfUnrealData extends _$ListOfUnrealData {
     // }
     final data = response.body;
     print(data);
-    // final List<Map<String, dynamic>> decodedData = [jsonDecode(data)];
-
-    // final unrealData = UnrealData.fromJson(decodedData.first);
-
-    // final previousState = await future;
-
-    // state = AsyncData([...previousState, unrealData]);
   }
 
+  Future<UnrealData> deleteData(String id) async {
+    final url = Uri.parse('https://jsonplaceholder.typicode.com/posts/$id');
+    final response = await http.delete(
+      url,
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+    // response is an empty json map {}
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> decodedData = jsonDecode(response.body);
+      // print(decodedData);
+      return UnrealData.fromJson(decodedData);
+    } else {
+      throw Exception('${response.statusCode} : failed');
+    }
+  }
 }
 
 // class ListOfUnrealData extends _$ListOfUnrealData {

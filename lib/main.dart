@@ -32,3 +32,4 @@ class MyApp extends StatelessWidget {
 //* So far I changed the UI to show only one unrealData at a time but random every time the app is started or a GET request is made
 //* I added a POST feature which adds the user input to the list of all unrealData and after the request the user input is displayed
 //* Next up is the UPDATE feature, I think find & update by ID is good to use, but I'm still working on it ...
+//* Next up is the DELETE feature, I did that already in the norivepod branch working with an Album & not Posts

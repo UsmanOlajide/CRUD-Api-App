@@ -18,7 +18,7 @@ class UnrealData {
       title: json['title'] ?? '',
       body: json['body'] ?? '',
       id: json['id'] ?? 0,
-      userId: json['userId'] ?? '',
+      userId: json['userId'] ?? 0,
     );
   }
 

@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-import 'package:crudapp/widgets/newpost_screen.dart';
+import 'package:crudapp/widgets/input_forms.dart';
 import 'package:crudapp/providers/jasonlistprovider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,8 +25,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   final userIdController = TextEditingController();
   final titleController = TextEditingController();
   final bodyController = TextEditingController();
-  // final idController = TextEditingController();
+  final idController = TextEditingController();
   var updated = true;
+  var delete = true;
   // int i = 0;
 
   @override
@@ -49,12 +50,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         body: listOfUnrealData.when(
           data: (listOfUnrealData) {
-            // if (updated == false) {
-            //   print(listOfUnrealData.last.id);
-            // }
+            if (updated == false) {
+              print(listOfUnrealData);
+            }
 
             var randomNumber = Random().nextInt(listOfUnrealData.length) + 1;
-            var initialItem = listOfUnrealData[randomNumber];
+            var initialItem = listOfUnrealData[1];
             var newItem = listOfUnrealData.last;
 
             return SingleChildScrollView(
@@ -69,15 +70,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     const SizedBox(height: 30),
                     const Text('BODY'),
                     Text(updated ? initialItem.body : newItem.body),
-                    const SizedBox(height: 60),
-                    NewPostScreen(
+                    const SizedBox(height: 40),
+                    InputForms(
                       userIdController: userIdController,
                       titleController: titleController,
                       bodyController: bodyController,
-                      // idController: idController,
-                      // selectedItemId: selectedItemId,v
+                      idController: idController,
+                      // selectedItemId: selectedItemId,
                     ),
-                    const SizedBox(height: 10),
+                    // const SizedBox(height: 10),
                     widget.buildButton(() async {
                       await ref
                           .read(listOfUnrealDataProvider.notifier)
@@ -100,7 +101,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       titleController.clear();
                       bodyController.clear();
                     }, 'POST'),
-                    
                     widget.buildButton(() async {
                       await ref
                           .read(listOfUnrealDataProvider.notifier)
@@ -109,10 +109,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               titleController.text,
                               bodyController.text,
                               int.tryParse(userIdController.text) ?? 0);
-                              
+
                       setState(() {});
                       print(updated);
-                    }, 'UPDATE / PUT')
+                    }, 'UPDATE / PUT'),
+
+                    widget.buildButton(() async {
+                      // final idToStrng = int.tryParse(idController.text) ?? 0;.
+                      // print('This is the id => ${idController.text}');
+                      await ref
+                          .read(listOfUnrealDataProvider.notifier)
+                          .deleteData(idController.text);
+                      setState(() {
+                        updated = false;
+                      });
+                    }, 'DELETE')
                   ],
                 )),
               ),
