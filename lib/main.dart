@@ -31,6 +31,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+//* HERE I used Album endpoint and outputted just 1 album
+//-------------------------------------
 //* CRUD operations with the Album from JSONPLACEHOLDER API & IT WORKS ✅
 
 //* FLUTTER VERSION
