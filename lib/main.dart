@@ -31,9 +31,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//* HERE I used Album endpoint and outputted just 1 album
+//* HERE I want to use\ Album List endpoint and output just list of album ...
 //-------------------------------------
-//* CRUD operations with the Album from JSONPLACEHOLDER API & IT WORKS ✅
 
 //* FLUTTER VERSION
 // import 'dart:async';
