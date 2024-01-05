@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'jasonlistprovider.dart';
+part of ' albumprovider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$listOfUnrealDataHash() => r'3927cddd02bc90f11b4597cdb7e3b5d3eed9e3ce';
+String _$albumProviderHash() => r'caa51ce80a53ddfb3917a16ad90d71cf2a41102f';
 
-/// See also [ListOfUnrealData].
-@ProviderFor(ListOfUnrealData)
-final listOfUnrealDataProvider = AutoDisposeAsyncNotifierProvider<
-    ListOfUnrealData, List<UnrealData>>.internal(
-  ListOfUnrealData.new,
-  name: r'listOfUnrealDataProvider',
+/// See also [AlbumProvider].
+@ProviderFor(AlbumProvider)
+final albumProviderProvider =
+    AutoDisposeAsyncNotifierProvider<AlbumProvider, List<Album>>.internal(
+  AlbumProvider.new,
+  name: r'albumProviderProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$listOfUnrealDataHash,
+      : _$albumProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ListOfUnrealData = AutoDisposeAsyncNotifier<List<UnrealData>>;
+typedef _$AlbumProvider = AutoDisposeAsyncNotifier<List<Album>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
